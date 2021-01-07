@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="compte" class="ma.asp.springaspect.beans.Compte">
+		<constructor-arg index="0" value="1000.0"/>
+	</bean>
+	<bean id="client" class="ma.asp.springaspect.beans.Client">
+		<constructor-arg index="0" value="hamza" />
+		<constructor-arg index="1" ref="compte" />
+	</bean>
+	<bean id="logging" class="ma.asp.springaspect.logging.LoggingHandler"/>
+	<bean id="clientProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>
+				ma.asp.springaspect.beans.IClient
+			</value>
+		</property>
+		<property name="target" ref="client"/>
+		<property name="interceptorNames">
+			<list>
+				<value>logging</value>
+			</list>
+		</property>
+	</bean> 
+</beans>
